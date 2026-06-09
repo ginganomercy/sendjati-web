@@ -16,7 +16,7 @@ Aplikasi ini dibangun menggunakan arsitektur web modern **Modular Monolith SPA (
 - **Segregasi Multi-Departemen**: Sistem membedakan secara tegas inventaris dan transaksi antara area **Kitchen** dan **Bar**. Master data dan Dashboard terisolasi untuk tiap departemen.
 - **Automated SKU Generator**: Kode unik barang (SKU) dibuat secara otomatis oleh sistem (*Auto-Pilot*) berdasarkan departemen dan jenis barang (contoh: `KTC-RAW-001`).
 - **Pencegahan Duplikasi Pintar**: Sistem mendeteksi barang ganda secara *real-time* saat pengetikan nama dan memberikan peringatan untuk melakukan restok alih-alih membuat entri baru.
-- **Slide-Over Panel UX**: Pembuatan transaksi dilakukan melalui panel geser estetik tanpa harus memuat ulang halaman (*No Reload*).
+- **Slide-Over Panel UX & Mobile-First**: Pembuatan transaksi dilakukan melalui panel geser estetik tanpa harus memuat ulang halaman (*No Reload*). Antarmuka 100% responsif dengan *Card View* adaptif untuk perangkat genggam (ponsel/tablet).
 - **Event-Sourcing Ledger**: Pencatatan alat operasional menggunakan *append-only ledger* yang memastikan integritas audit mutlak.
 
 ---

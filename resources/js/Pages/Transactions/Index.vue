@@ -3,24 +3,24 @@
     <AppLayout>
 
         <!-- Header -->
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Transaksi {{ filters?.department === 'bar' ? 'Bar' : (filters?.department === 'kitchen' ? 'Kitchen' : '') }}</h1>
                 <p class="text-sm text-gray-500 mt-1">Semua mutasi barang masuk, keluar, retur, dan opname</p>
             </div>
             <button @click="openSlideOver()"
-                class="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium text-sm transition-colors shadow-sm">
+                class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium text-sm transition-colors shadow-sm">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Buat Transaksi Baru
             </button>
         </div>
 
         <!-- Filter Bar -->
-        <div class="flex flex-wrap gap-2 mb-5">
+        <div class="flex overflow-x-auto pb-2 gap-2 mb-4 scrollbar-hide">
             <button v-for="tab in filterTabs" :key="tab.value"
                 @click="applyFilter(tab.value)"
                 :class="[
-                    'px-4 py-2 rounded-lg text-sm font-medium transition-colors border',
+                    'whitespace-nowrap shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors border',
                     activeFilter === tab.value
                         ? tab.activeClass
                         : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
@@ -44,7 +44,7 @@
             </div>
 
             <!-- Table Data -->
-            <table v-else class="w-full text-sm">
+            <table v-else class="w-full text-sm hidden md:table">
                 <thead class="bg-gray-50 border-b border-gray-100">
                     <tr>
                         <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">No. Referensi</th>
@@ -82,6 +82,35 @@
                 </tbody>
             </table>
 
+            <!-- Mobile Card View -->
+            <div v-if="transactions.data.length" class="md:hidden divide-y divide-gray-100">
+                <div v-for="trx in transactions.data" :key="trx.id" class="p-4 bg-white">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <span class="inline-block font-mono text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded mb-1.5">{{ trx.reference_number }}</span>
+                            <div>
+                                <span :class="['px-2 py-0.5 rounded text-[10px] font-bold tracking-wide uppercase', typeStyle[trx.type]?.badge]">
+                                    {{ typeStyle[trx.type]?.label }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[10px] text-gray-500 mb-1">{{ formatDate(trx.created_at) }}</p>
+                            <span class="inline-flex items-center gap-1 text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                {{ trx.status.charAt(0).toUpperCase() + trx.status.slice(1) }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-2.5 space-y-1">
+                        <div v-for="d in trx.details" :key="d.id" class="text-xs flex justify-between items-center">
+                            <span class="font-medium text-gray-700 truncate pr-2">{{ d.item?.name }}</span>
+                            <span class="text-gray-500 font-bold">× {{ d.quantity }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Pagination -->
             <div v-if="transactions.data.length" class="px-5 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500 relative z-20 bg-white">
                 <span>Menampilkan {{ transactions.from }}–{{ transactions.to }} dari {{ transactions.total }} data</span>
@@ -97,7 +126,7 @@
         <!-- Slide Over Panel (Buat Transaksi) -->
         <div v-if="slideOverOpen" class="fixed inset-0 overflow-hidden z-50">
             <div class="absolute inset-0 bg-gray-800 bg-opacity-40 backdrop-blur-sm transition-opacity" @click="closeSlideOver()"></div>
-            <div class="fixed inset-y-0 right-0 max-w-2xl w-full flex">
+            <div class="fixed inset-y-0 right-0 w-full sm:max-w-2xl flex">
                 <div class="w-full h-full bg-white shadow-2xl flex flex-col transform transition-transform border-l border-gray-200">
                     <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
                         <div>

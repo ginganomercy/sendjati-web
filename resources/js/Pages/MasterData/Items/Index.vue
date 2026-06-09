@@ -4,24 +4,24 @@
         <div v-if="$page.props.flash?.success" class="mb-4 px-4 py-3 bg-green-100 border border-green-300 text-green-800 rounded-lg text-sm">{{ $page.props.flash.success }}</div>
         <div v-if="$page.props.flash?.error" class="mb-4 px-4 py-3 bg-red-100 border border-red-300 text-red-800 rounded-lg text-sm">{{ $page.props.flash.error }}</div>
 
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">
                     {{ filters?.type === 'equipment' ? 'Peralatan' : 'Bahan Baku' }} {{ filters?.department === 'bar' ? 'Bar' : 'Kitchen' }}
                 </h1>
                 <p class="text-sm text-gray-500 mt-1">Kelola data inventaris</p>
             </div>
-            <button @click="openModal()" class="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium text-sm transition-colors shadow-sm">
+            <button @click="openModal()" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium text-sm transition-colors shadow-sm">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Barang
             </button>
         </div>
 
         <!-- Filter -->
-        <div class="flex gap-3 mb-5">
+        <div class="flex flex-col sm:flex-row gap-3 mb-5">
             <input v-model="search" @input="applyFilter" type="text" placeholder="Cari nama / SKU..."
-                class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
-            <select v-model="categoryFilter" @change="applyFilter" class="border border-gray-300 rounded-lg px-3 py-2 pr-10 min-w-[180px] text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+            <select v-model="categoryFilter" @change="applyFilter" class="border border-gray-300 rounded-lg px-3 py-2 pr-10 min-w-[180px] w-full sm:w-auto text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400">
                 <option value="">Semua Kategori</option>
                 <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
             </select>
@@ -29,7 +29,7 @@
 
         <!-- Table -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <table class="w-full text-sm">
+            <table class="w-full text-sm hidden md:table">
                 <thead class="bg-gray-50 border-b border-gray-100">
                     <tr>
                         <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">SKU</th>
@@ -104,6 +104,41 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!-- Mobile Card View -->
+            <div class="md:hidden divide-y divide-gray-100">
+                <div v-for="item in items.data" :key="item.id" class="p-4 bg-white hover:bg-gray-50 active:bg-gray-100 cursor-pointer" @click="openHistory(item)">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="pr-3">
+                            <span class="inline-block px-2 py-0.5 text-[10px] font-bold rounded mb-1 bg-gray-100 text-gray-600">{{ item.sku }}</span>
+                            <h3 class="font-bold text-gray-800 text-sm leading-tight">{{ item.name }}</h3>
+                            <p class="text-xs text-gray-500 mt-0.5">{{ item.category?.name }} • {{ item.unit?.name }}</p>
+                        </div>
+                        <div class="text-right flex flex-col items-end shrink-0">
+                            <span :class="[
+                                'text-lg font-black leading-none',
+                                item.current_stock === 0 ? 'text-red-600' :
+                                item.current_stock <= item.minimum_stock ? 'text-emerald-600' : 'text-gray-800'
+                            ]">{{ item.current_stock }}</span>
+                            <span :class="[
+                                'text-[10px] px-1.5 py-0.5 rounded font-bold mt-1',
+                                item.current_stock === 0 ? 'bg-red-100 text-red-600' :
+                                item.current_stock <= item.minimum_stock ? 'bg-emerald-100 text-emerald-700' :
+                                'bg-green-100 text-green-700'
+                            ]">
+                                {{ item.current_stock === 0 ? 'Habis' : item.current_stock <= item.minimum_stock ? 'Rendah' : 'Aman' }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-2 mt-3 pt-3 border-t border-gray-50">
+                        <button @click.stop="openModal(item)" class="text-xs font-medium px-4 py-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100">Edit</button>
+                        <button @click.stop="confirmDelete(item)" class="text-xs font-medium px-4 py-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-100">Hapus</button>
+                    </div>
+                </div>
+                <div v-if="items.data.length === 0" class="p-8 text-center text-gray-400 text-sm">
+                    Tidak ada barang ditemukan.
+                </div>
+            </div>
             <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
                 <span>Menampilkan {{ items.from }}–{{ items.to }} dari {{ items.total }} data</span>
                 <div class="flex gap-1">

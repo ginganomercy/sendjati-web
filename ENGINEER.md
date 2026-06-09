@@ -43,6 +43,13 @@ Coba klik menu "Transaksi Kitchen", lalu klik tombol "Buat Transaksi Baru". Perh
 
 ---
 
+## 6. Desain Fleksibel Layar (Responsive Web Design)
+Buka aplikasi di layar komputer besar, lalu bandingkan saat dibuka lewat HP (kecilkan ukuran *browser*). Tiba-tiba tabel barang yang lebar berubah bentuk menjadi seperti Kartu (*Card View*), dan menu samping (*Sidebar*) bersembunyi ke dalam tombol "Garis Tiga" (Hamburger Menu)!
+- Tailwind CSS menggunakan konsep kelas canggih seperti `md:hidden` yang artinya *"hilangkan benda ini jika layar sedang kecil"*.
+- Dengan teknik *Responsive Design* ini, aplikasi Sendjati Cafe bisa dipakai kasir memakai Tablet Android dan oleh admin menggunakan PC kantor tanpa membuat aplikasi terpisah!
+
+---
+
 ## Bagaimana Cara Saya Mulai Belajar?
 1. Buka *folder* `routes/web.php` untuk melihat daftar semua URL (link jalur masuk) aplikasi.
 2. Dari jalur tersebut, telusuri ke *folder* `app/Http/Controllers/` (Otak pengendali logika jembatan).

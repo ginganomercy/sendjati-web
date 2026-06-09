@@ -3,7 +3,7 @@
     <AppLayout>
 
         <!-- Header -->
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">Buku Besar</h1>
                 <p class="text-sm text-gray-500 mt-1">Audit trail permanen seluruh mutasi stok inventaris</p>
@@ -23,7 +23,8 @@
             </div>
 
             <!-- Table Data -->
-            <table v-else class="w-full text-sm">
+            <div v-else class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[800px]">
                 <thead class="bg-gray-50 border-b border-gray-100">
                     <tr>
                         <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Waktu & Tanggal</th>
@@ -84,7 +85,8 @@
 
                     </tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
 
             <!-- Pagination -->
             <div v-if="ledgers.data.length" class="px-5 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">

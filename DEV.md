@@ -37,6 +37,9 @@ Logika inventaris dipisah secara tegas berdasarkan sifat barangnya:
 ### D. Optimasi UX (Single Page Application & Slide-over)
 Pada iterasi terbaru, kompleksitas *routing* dikurangi drastis. Halaman `Transactions/Create.vue` telah dilebur ke dalam `Transactions/Index.vue` menggunakan *Slide-over Panel*. Pengembang *frontend* wajib memperhatikan reaktivitas Inertia form (`useForm`) dan *state management* agar form bisa ditutup/direset mulus tanpa me-*refresh* URL.
 
+### E. Mobile-First & Responsive Layout
+UI aplikasi dirancang secara *mobile-first* menggunakan *utility classes* Tailwind (`sm:`, `md:`). Komponen *table* data yang memakan banyak ruang secara otomatis ditransformasi menjadi format *Card View* vertikal saat diakses dari perangkat layar sempit. Seluruh form input, *sidebar* navigasi (*off-canvas*), dan grafik dasbor akan beradaptasi secara elegan tanpa mengorbankan fungsionalitas.
+
 ---
 
 ## 3. Peta Direktori Penting (Project Map)

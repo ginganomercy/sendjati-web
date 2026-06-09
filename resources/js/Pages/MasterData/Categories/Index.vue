@@ -12,14 +12,14 @@
         </div>
 
         <!-- Header -->
-        <div class="flex items-center justify-between mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
             <div>
                 <h1 class="text-2xl font-bold text-gray-800">
                     Kategori {{ filters?.department === 'bar' ? 'Bar' : 'Kitchen' }}
                 </h1>
                 <p class="text-sm text-gray-500 mt-1">Kelola kategori bahan baku dan barang siap jual</p>
             </div>
-            <button @click="openModal()" class="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium text-sm transition-colors shadow-sm">
+            <button @click="openModal()" class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg font-medium text-sm transition-colors shadow-sm">
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Kategori
             </button>
@@ -27,7 +27,8 @@
 
         <!-- Table -->
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-            <table class="w-full text-sm">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm min-w-[500px]">
                 <thead class="bg-gray-50 border-b border-gray-100">
                     <tr>
                         <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">No</th>
@@ -55,7 +56,8 @@
                         <td colspan="4" class="px-5 py-10 text-center text-gray-400">Belum ada kategori. Tambahkan kategori pertama Anda.</td>
                     </tr>
                 </tbody>
-            </table>
+                </table>
+            </div>
             <!-- Pagination -->
             <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
                 <span>Menampilkan {{ categories.from }}–{{ categories.to }} dari {{ categories.total }} data</span>

@@ -1,11 +1,23 @@
 <template>
-    <div class="w-64 bg-white border-r border-gray-200 hidden md:flex md:flex-col h-screen sticky top-0">
-        <!-- Logo -->
-        <div class="h-16 flex items-center px-6 border-b border-gray-100">
+    <!-- Mobile Overlay -->
+    <div v-show="isOpen" @click="$emit('close')" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-40 md:hidden transition-opacity"></div>
+
+    <!-- Sidebar Content -->
+    <div :class="[
+        'w-64 bg-white border-r border-gray-200 flex flex-col h-screen z-50 transition-transform duration-300 ease-in-out',
+        'fixed top-0 bottom-0 left-0 md:sticky md:translate-x-0',
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+    ]">
+        <!-- Logo & Mobile Close -->
+        <div class="h-16 flex items-center justify-between px-6 border-b border-gray-100">
             <div class="flex items-center space-x-3">
                 <img src="/images/logo.png" alt="Sendjati Logo" class="w-8 h-8 rounded-full object-cover shadow-sm border border-emerald-100" />
                 <span class="font-bold text-gray-800 text-sm tracking-tight">Sendjati Cafe</span>
             </div>
+            <!-- Close Button -->
+            <button @click="$emit('close')" class="md:hidden text-gray-400 hover:text-gray-600 focus:outline-none p-1 -mr-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
 
         <!-- Navigation -->
@@ -26,13 +38,13 @@
                         </svg>
                     </button>
                     <div v-show="dashboardOpen" class="mt-0.5 pl-4 space-y-0.5">
-                        <Link :href="route('dashboard', {department: 'kitchen'})" :class="subNavClass(route().current('dashboard') && $page.props.filters?.department === 'kitchen')">Dashboard Kitchen</Link>
-                        <Link :href="route('dashboard', {department: 'bar'})" :class="subNavClass(route().current('dashboard') && $page.props.filters?.department === 'bar')">Dashboard Bar</Link>
+                        <Link @click="$emit('close')" :href="route('dashboard', {department: 'kitchen'})" :class="subNavClass(route().current('dashboard') && $page.props.filters?.department === 'kitchen')">Dashboard Kitchen</Link>
+                        <Link @click="$emit('close')" :href="route('dashboard', {department: 'bar'})" :class="subNavClass(route().current('dashboard') && $page.props.filters?.department === 'bar')">Dashboard Bar</Link>
                     </div>
                 </div>
 
                 <!-- Master Data Kitchen -->
-                <div>
+                <div class="mt-1">
                     <button @click="kitchenOpen = !kitchenOpen" :class="[...navClass(isKitchenActive), 'w-full justify-between']">
                         <div class="flex items-center">
                             <svg class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,9 +57,9 @@
                         </svg>
                     </button>
                     <div v-show="kitchenOpen" class="mt-0.5 pl-4 space-y-0.5">
-                        <Link :href="route('items.index', {department: 'kitchen', type: 'consumable'})" :class="subNavClass(isActiveFilter('kitchen', 'consumable'))">Bahan Baku</Link>
-                        <Link :href="route('items.index', {department: 'kitchen', type: 'equipment'})" :class="subNavClass(isActiveFilter('kitchen', 'equipment'))">Peralatan</Link>
-                        <Link :href="route('categories.index', {department: 'kitchen'})" :class="subNavClass(isActiveCategory('kitchen'))">Kategori</Link>
+                        <Link @click="$emit('close')" :href="route('items.index', {department: 'kitchen', type: 'consumable'})" :class="subNavClass(isActiveFilter('kitchen', 'consumable'))">Bahan Baku</Link>
+                        <Link @click="$emit('close')" :href="route('items.index', {department: 'kitchen', type: 'equipment'})" :class="subNavClass(isActiveFilter('kitchen', 'equipment'))">Peralatan</Link>
+                        <Link @click="$emit('close')" :href="route('categories.index', {department: 'kitchen'})" :class="subNavClass(isActiveCategory('kitchen'))">Kategori</Link>
                     </div>
                 </div>
 
@@ -65,9 +77,9 @@
                         </svg>
                     </button>
                     <div v-show="barOpen" class="mt-0.5 pl-4 space-y-0.5">
-                        <Link :href="route('items.index', {department: 'bar', type: 'consumable'})" :class="subNavClass(isActiveFilter('bar', 'consumable'))">Bahan Baku</Link>
-                        <Link :href="route('items.index', {department: 'bar', type: 'equipment'})" :class="subNavClass(isActiveFilter('bar', 'equipment'))">Peralatan</Link>
-                        <Link :href="route('categories.index', {department: 'bar'})" :class="subNavClass(isActiveCategory('bar'))">Kategori</Link>
+                        <Link @click="$emit('close')" :href="route('items.index', {department: 'bar', type: 'consumable'})" :class="subNavClass(isActiveFilter('bar', 'consumable'))">Bahan Baku</Link>
+                        <Link @click="$emit('close')" :href="route('items.index', {department: 'bar', type: 'equipment'})" :class="subNavClass(isActiveFilter('bar', 'equipment'))">Peralatan</Link>
+                        <Link @click="$emit('close')" :href="route('categories.index', {department: 'bar'})" :class="subNavClass(isActiveCategory('bar'))">Kategori</Link>
                     </div>
                 </div>
 
@@ -90,8 +102,8 @@
                         </svg>
                     </button>
                     <div v-show="trxOpen" class="mt-0.5 pl-4 space-y-0.5">
-                        <Link :href="route('transactions.index', {department: 'kitchen'})" :class="subNavClass(route().current('transactions.index') && $page.props.filters?.department === 'kitchen')">Transaksi Kitchen</Link>
-                        <Link :href="route('transactions.index', {department: 'bar'})" :class="subNavClass(route().current('transactions.index') && $page.props.filters?.department === 'bar')">Transaksi Bar</Link>
+                        <Link @click="$emit('close')" :href="route('transactions.index', {department: 'kitchen'})" :class="subNavClass(route().current('transactions.index') && $page.props.filters?.department === 'kitchen')">Transaksi Kitchen</Link>
+                        <Link @click="$emit('close')" :href="route('transactions.index', {department: 'bar'})" :class="subNavClass(route().current('transactions.index') && $page.props.filters?.department === 'bar')">Transaksi Bar</Link>
                     </div>
                 </div>
 
@@ -101,7 +113,7 @@
                 </div>
 
                 <!-- Buku Besar / Ledger -->
-                <Link :href="route('ledger.index')" :class="navClass(route().current('ledger.*'))">
+                <Link @click="$emit('close')" :href="route('ledger.index')" :class="navClass(route().current('ledger.*'))">
                     <svg class="mr-3 h-5 w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
@@ -114,14 +126,14 @@
         <!-- User Info Bottom -->
         <div class="border-t border-gray-100 p-4">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold text-xs">
-                    {{ $page.props.auth.user?.name?.charAt(0).toUpperCase() }}
+                <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-800 font-bold text-xs shrink-0">
+                    {{ $page.props.auth.user?.name?.charAt(0).toUpperCase() || 'A' }}
                 </div>
                 <div class="flex-1 min-w-0">
-                    <div class="text-xs font-semibold text-gray-800 truncate">{{ $page.props.auth.user?.name }}</div>
-                    <div class="text-xs text-gray-400 truncate">{{ $page.props.auth.user?.email }}</div>
+                    <div class="text-xs font-semibold text-gray-800 truncate">{{ $page.props.auth.user?.name || 'Admin' }}</div>
+                    <div class="text-xs text-gray-400 truncate">{{ $page.props.auth.user?.email || 'admin@sendjati.com' }}</div>
                 </div>
-                <Link :href="route('logout')" method="post" as="button" class="text-gray-400 hover:text-red-500 transition-colors">
+                <Link @click="$emit('close')" :href="route('logout')" method="post" as="button" class="text-gray-400 hover:text-red-500 transition-colors shrink-0 p-1">
                     <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
@@ -134,6 +146,15 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+
+const props = defineProps({
+    isOpen: {
+        type: Boolean,
+        default: false
+    }
+});
+
+defineEmits(['close']);
 
 const page = usePage();
 

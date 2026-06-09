@@ -20,7 +20,7 @@
                 <div class="absolute right-0 top-0 -mt-4 -mr-4 w-24 h-24 bg-blue-50 rounded-full opacity-50 pointer-events-none"></div>
                 <div class="relative z-10">
                     <p class="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1">Total Barang</p>
-                    <p class="text-3xl font-black text-gray-800">{{ stats.totalBarang }}</p>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-800">{{ stats.totalBarang }}</p>
                     <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
                         <svg class="w-3.5 h-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Jenis barang aktif
@@ -39,7 +39,7 @@
                 ]"></div>
                 <div class="relative z-10">
                     <p :class="['text-xs font-bold uppercase tracking-wider mb-1', stats.stokKritis > 0 ? 'text-red-500' : 'text-gray-500']">Stok Kritis</p>
-                    <p :class="['text-3xl font-black', stats.stokKritis > 0 ? 'text-red-600' : 'text-gray-800']">{{ stats.stokKritis }}</p>
+                    <p :class="['text-2xl sm:text-3xl font-black', stats.stokKritis > 0 ? 'text-red-600' : 'text-gray-800']">{{ stats.stokKritis }}</p>
                     <p :class="['text-xs mt-2 flex items-center gap-1', stats.stokKritis > 0 ? 'text-red-500 font-medium' : 'text-gray-500']">
                         <svg v-if="stats.stokKritis > 0" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                         <svg v-else class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -53,7 +53,7 @@
                 <div class="absolute right-0 top-0 -mt-4 -mr-4 w-24 h-24 bg-green-50 rounded-full opacity-50 pointer-events-none"></div>
                 <div class="relative z-10">
                     <p class="text-xs font-bold text-green-500 uppercase tracking-wider mb-1">Masuk Bulan Ini</p>
-                    <p class="text-3xl font-black text-gray-800">{{ stats.transaksiMasukBulanIni }}</p>
+                    <p class="text-2xl sm:text-3xl font-black text-gray-800">{{ stats.transaksiMasukBulanIni }}</p>
                     <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
                         <svg class="w-3.5 h-3.5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                         Transaksi penerimaan
@@ -66,7 +66,7 @@
                 <div class="absolute right-0 top-0 -mt-4 -mr-4 w-24 h-24 bg-emerald-50 rounded-full opacity-50 pointer-events-none"></div>
                 <div class="relative z-10">
                     <p class="text-xs font-bold text-emerald-500 uppercase tracking-wider mb-1">Est. Nilai Stok</p>
-                    <p class="text-2xl font-black text-gray-800 leading-9">{{ nilaiStokFormatted }}</p>
+                    <p class="text-xl sm:text-2xl font-black text-gray-800 leading-9">{{ nilaiStokFormatted }}</p>
                     <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
                         <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Hanya dari barang berharga
@@ -87,7 +87,7 @@
                     </div>
                 </div>
                 <!-- Canvas untuk Chart.js -->
-                <div class="flex-1 min-h-[300px] relative w-full">
+                <div class="flex-1 min-h-[200px] md:min-h-[300px] relative w-full">
                     <canvas ref="chartCanvas"></canvas>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                         <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                         Alert Stok Kritis
                     </h3>
-                    <Link :href="route('items.index')" class="text-xs text-emerald-600 hover:text-emerald-700 font-bold bg-emerald-50 px-2 py-1 rounded-md transition-colors">Lihat Semua</Link>
+                    <Link :href="route('items.index', {department: filters?.department ?? 'kitchen'})" class="text-xs text-emerald-600 hover:text-emerald-700 font-bold bg-emerald-50 px-2 py-1 rounded-md transition-colors">Lihat Semua</Link>
                 </div>
 
                 <div class="flex-1 p-6 overflow-y-auto">
@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="p-4 border-t border-gray-100 bg-gray-50/50">
-                    <Link :href="route('transactions.create')"
+                    <Link :href="route('transactions.index', {department: filters?.department ?? 'kitchen'})"
                         class="flex items-center justify-center gap-2 w-full py-2.5 bg-gray-800 hover:bg-gray-900 text-white text-sm font-bold rounded-lg transition-colors shadow-sm hover:shadow">
                         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                         Buat Transaksi Restok
